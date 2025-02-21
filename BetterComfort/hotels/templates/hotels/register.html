@@ -1,0 +1,127 @@
+{% extends 'main.html' %}
+{% block title %}Register Page{% endblock %}
+{% block body %}
+<style>
+    /* Centered container with increased width and added top margin */
+    .register-container {
+        max-width: 600px; /* Increased from 400px to 600px */
+        width: 100%;
+        margin: 50px auto; /* Added 50px margin at the top */
+    }
+
+    /* Card styling */
+    .card {
+        background: #ffffff;
+        border: none;
+        border-radius: 10px;
+        padding: 30px 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background: transparent;
+        border-bottom: none;
+    }
+
+    .card-header h3 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    /* Form elements */
+    .form-group label {
+        font-size: 14px;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-control:focus {
+        border-color: #dd2476;
+        box-shadow: 0px 0px 5px rgba(221, 36, 118, 0.5);
+    }
+
+    .btn-success {
+        background: #ff512f;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        transition: background 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background: #dd2476;
+    }
+
+    .text-center p {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .text-center a {
+        color: #dd2476;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .text-center a:hover {
+        text-decoration: underline;
+    }
+
+    /* Add space below for better structure */
+    .register-container {
+        padding-bottom: 50px;
+    }
+</style>
+
+<!-- Register Form -->
+<div class="register-container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h3>Register</h3>
+        </div>
+        <div class="card-body">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" name="password2" id="password2" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block w-100 mt-3">Register</button>
+            </form>
+            <div class="text-center mt-4">
+                <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

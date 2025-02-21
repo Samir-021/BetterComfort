@@ -1,0 +1,127 @@
+{% extends 'main.html' %}
+{% block title %}Login Page{% endblock %}
+{% block body %}
+
+<style>
+    /* Centered container with increased width and added top margin */
+    .login-container {
+        max-width: 600px; /* Increased from 400px to 600px */
+        width: 100%;
+        margin: 50px auto; /* Added 50px margin at the top */
+    }
+
+    /* Card styling */
+    .card {
+        background: #ffffff;
+        border: none;
+        border-radius: 10px;
+        padding: 30px 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+        background: transparent;
+        border-bottom: none;
+    }
+
+    .card-header h3 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    /* Form elements */
+    .form-group label {
+        font-size: 14px;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .form-control:focus {
+        border-color: #2575fc;
+        box-shadow: 0px 0px 5px rgba(37, 117, 252, 0.5);
+    }
+
+    .btn-primary {
+        background: #6a11cb;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: #2575fc;
+    }
+
+    .text-center p {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .text-center a {
+        color: #2575fc;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .text-center a:hover {
+        text-decoration: underline;
+    }
+
+    /* Add space below for better structure */
+    .login-container {
+        padding-bottom: 50px;
+    }
+</style>
+
+<!-- Login Form -->
+<div class="login-container">
+    <div class="card shadow-lg">
+        <div class="card-header text-center">
+            <h3>Login</h3>
+        </div>
+        <div class="card-body">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <p>Invalid username or password. Please try again.</p>
+            </div>
+        {% endif %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block w-100 mt-3">Login</button>
+            </form>
+            <div class="text-center mt-4">
+                <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

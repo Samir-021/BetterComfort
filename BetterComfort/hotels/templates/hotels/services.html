@@ -1,0 +1,138 @@
+{% extends 'main.html' %}
+
+{% block title %}Our Services - BetterComfort{% endblock %}
+
+{% block content %}
+<div class="services-container">
+    <h2 class="services-title">Explore What We Offer</h2>
+    <p class="services-subtitle">BetterComfort makes finding and booking hotels & restaurants easier than ever!</p>
+
+    <div class="services-grid">
+        <div class="service-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Real-time Location Search</h3>
+            <p>Find nearby hotels and restaurants based on your current location, making travel seamless and hassle-free.</p>
+        </div>
+
+        <div class="service-item">
+            <i class="fas fa-map"></i>
+            <h3>Interactive Maps</h3>
+            <p>View user and hotel locations on an integrated map, helping you navigate and reach your destination easily.</p>
+        </div>
+
+        <div class="service-item">
+            <i class="fas fa-star"></i>
+            <h3>Reviews & Ratings</h3>
+            <p>Read and share hotel and restaurant experiences through detailed user reviews and ratings.</p>
+        </div>
+
+        <div class="service-item">
+            <i class="fas fa-heart"></i>
+            <h3>Save Your Favorites</h3>
+            <p>Bookmark your favorite places and manage them easily with our personalized favorites feature.</p>
+        </div>
+
+        <div class="service-item">
+            <i class="fas fa-calendar-check"></i>
+            <h3>Hotel Booking</h3>
+            <p>Book hotels instantly with our user-friendly booking system, ensuring you never miss a great stay.</p>
+        </div>
+
+        <div class="service-item">
+            <i class="fas fa-phone-alt"></i>
+            <h3>Quick Contact Info</h3>
+            <p>Get phone numbers, addresses, and essential details at a glance for easy reservations and inquiries.</p>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h3>Start Exploring Now!</h3>
+        <h5> <b> Find your next hotel or restaurant with BetterComfort.</b></h5>
+        <a href="{% url 'home' %}" class="cta-button">Search Now</a>
+    </div>
+</div>
+
+<style>
+    .services-container {
+        text-align: center;
+        padding: 50px 20px;
+        background: #f9f9f9;
+    }
+
+    .services-title {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .services-subtitle {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .service-item {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        text-align: center;
+    }
+
+    .service-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .service-item i {
+        font-size: 40px;
+        color: #007bff;
+        margin-bottom: 10px;
+    }
+
+    .service-item h3 {
+        font-size: 20px;
+        color: #333;
+    }
+
+    .service-item p {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .cta-section {
+        margin-top: 40px;
+        background: #007bff;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .cta-section h3 {
+        font-size: 24px;
+    }
+
+    .cta-button {
+        display: inline-block;
+        margin-top: 10px;
+        background: white;
+        color: #007bff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+
+    .cta-button:hover {
+        background: #e6e6e6;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,213 @@
+{% extends 'main.html' %}
+
+{% block title %}Hotel Details{% endblock %}
+
+{% block content %}
+<style>
+    .rating {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+    }
+
+    .rating input[type="radio"] {
+        display: none;
+    }
+
+    .rating label {
+        font-size: 50px;
+        color: light gray;
+        cursor: pointer;
+    }
+
+    .rating input[type="radio"]:checked ~ label {
+        color: gold;
+    }
+
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: gold;
+    }
+
+    .review-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-card small {
+        color: #666;
+    }
+
+    textarea {
+        width: 100%;
+        height: 100px;
+        margin-top: 8px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        resize: none;
+    }
+
+    textarea:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+    #map {
+        height: 400px;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    .gold-icon{
+        color: gold;
+    }
+</style>
+
+<div class="container mt-5">
+    <!-- Hotel Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"> <i class="fas fa-hotel"></i> {{ name }}</h2>
+        <form method="POST" action="{% url 'save_favorite' %}">
+            {% csrf_token %}
+            <input type="hidden" name="name" value="{{ name }}">
+            <input type="hidden" name="latitude" value="{{ latitude }}">
+            <input type="hidden" name="longitude" value="{{ longitude }}">
+            <input type="hidden" name="address" value="{{ address }}">
+            <input type="hidden" name="phone" value="{{ phone }}">
+            <input type="hidden" name="user_lat" value="{{ user_lat }}">
+            <input type="hidden" name="user_lon" value="{{ user_lon }}">
+            {% if is_favorite %}
+                <button type="button" class="btn btn-success" disabled>Saved</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Save as Favorite</button>
+            {% endif %}
+        </form>
+    </div>
+
+    <!-- Hotel Information -->
+    <p> <i class="fas fa-phone-alt"></i> <strong>Phone Number:</strong> {{ phone }}</p>
+    <p> <i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> {{ address }}</p>
+
+    <!-- Map Section -->
+    <div id="map"></div>
+
+    <!-- Average Rating -->
+    <p class="mt-4"><strong>Average Rating:</strong>
+        {% for i in "12345" %}
+        <span style="color: {% if i <= average_rating|floatformat:0 %}gold{% else %}light gray{% endif %};">&#9733;</span>
+        {% endfor %}
+    </p>
+
+        <!-- Booking Section -->
+    <h3 class="mt-5">Book This Hotel</h3>
+    <form method="POST" action="{% url 'book_hotel' hotel_name=name  lat=latitude lon=longitude %}">
+        {% csrf_token %}
+
+        <!-- Display error messages if the form is invalid -->
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>There were errors in your booking:</strong>
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <label for="check_in">Check-in Date:</label>
+                <input type="date" id="check_in" name="check_in" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label for="check_out">Check-out Date:</label>
+                <input type="date" id="check_out" name="check_out" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <label for="adults">Adults:</label>
+                <input type="number" id="adults" name="adults" class="form-control" min="1" value="1" required>
+            </div>
+            <div class="col-md-4">
+                <label for="children">Children:</label>
+                <input type="number" id="children" name="children" class="form-control" min="0" value="0">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-3">Book Now</button>
+    </form>
+
+
+    <!-- Reviews Section -->
+    <h3 class="mt-5">Reviews</h3>
+    {% for review in reviews %}
+        <div class="review-card">
+            <p> <i class="fas fa-user"></i> <strong>{{ review.user.username }}</strong></p>
+            <p> <i class="fas fa-star gold-icon"></i> Rating:
+                {% for i in rating_range %}
+                <span style="color: {% if i <= review.rating %}gold{% else %}light gray{% endif %};">&#9733;</span>
+                {% endfor %}
+            </p>
+            <p> <i class="fa fa-envelope"></i> {{ review.review_text }}</p>
+            <p> <i class="fas fa-calendar-alt"></i> <small>{{ review.created_at }}</small></p>
+        </div>
+    {% empty %}
+        <p>No reviews yet. Be the first to write one!</p>
+    {% endfor %}
+
+    <!-- Submit a Review -->
+    <h3 class="mt-4">Submit a Review</h3>
+        <form method="POST" action="{% url 'hotel_details' lat=latitude lon=longitude name=name %}">
+            {% csrf_token %}
+            <div class="rating">
+                {% for star in "54321" %}
+                <input type="radio" id="star{{ star }}" name="rating" value="{{ star }}"
+                {% if form.initial.rating == star %}checked{% endif %}>
+                <label for="star{{ star }}">&#9733;</label>
+                {% endfor %}
+            </div>
+            <textarea name="review_text" placeholder="Write your review..." required>{{ form.initial.review_text }}</textarea>
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+</div>
+<br>
+
+<script>
+    const userLatt = parseFloat("{{ user_lat|default:'NaN' }}");
+    const userLong = parseFloat("{{ user_lon|default:'NaN' }}");
+    const hotelLat = parseFloat("{{ latitude }}");
+    const hotelLon = parseFloat("{{ longitude }}");
+    const hotelName = "{{ name }}";
+
+    const map = L.map('map').setView([hotelLat, hotelLon], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    if (!isNaN(userLatt) && !isNaN(userLong)) {
+        L.marker([userLatt, userLong]).addTo(map).bindPopup("Your Location").openPopup();
+    }
+
+    L.marker([hotelLat, hotelLon]).addTo(map).bindPopup(hotelName);
+
+    document.addEventListener("DOMContentLoaded", function() {
+        let checkIn = document.getElementById("check_in");
+        let checkOut = document.getElementById("check_out");
+
+        checkIn.addEventListener("change", function() {
+            checkOut.min = checkIn.value;
+        });
+    });
+</script>
+{% endblock %}
