@@ -1,17 +1,19 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block title %}Home{% endblock %}
+{% block title %}BetterComfort - Find Your Next Stay{% endblock %}
 
 {% block body %}
 
         {% if messages %}
             {% if request.resolver_match.url_name in "login register home" %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
+                <div class="container mt-3">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
             {% endif %}
         {% endif %}
 
@@ -23,14 +25,16 @@
                 <div class="swiper-slide" style="background-image: url('{% static 'images/slider1.jpg' %}');">
                     <div class="slide-caption text-center">
                         <div>
-                            <h1>Forget to book the Hotel, Boss?</h1>
+                            <h1>Need a Comfortable Stay?</h1>
+                            <p class="text-white lead mt-3">Discover premier hotels and restaurants near you in seconds.</p>
                         </div>
                     </div>
                 </div>
                 <div class="swiper-slide" style="background-image: url('{% static 'images/slider2.jpg' %}');">
                     <div class="slide-caption text-center">
                         <div>
-                            <h1>Book Now..</h1>
+                            <h1>Book With Confidence</h1>
+                            <p class="text-white lead mt-3">Read real guest reviews, compare locations, and reserve instantly.</p>
                         </div>
                     </div>
                 </div>
@@ -38,67 +42,85 @@
             <div class="swiper-pagination"></div>
         </div>
         <div class="container booking-area">
-            <form class="row">
-                <div class="col-lg mb-3 mb-lg-0">
-                    <input type="date" class="form-control" placeholder="Date">
+            <form class="row" action="{% url 'search_hotels' %}" method="get" id="hero-search-form">
+                <input type="hidden" id="hero-user-lat" name="lat">
+                <input type="hidden" id="hero-user-lon" name="lon">
+                <div class="col-lg-3 mb-3 mb-lg-0">
+                    <input type="text" name="q" class="form-control" placeholder="Hotel or Restaurant name...">
                 </div>
                 <div class="col-lg mb-3 mb-lg-0">
-                    <input type="date" class="form-control" placeholder="Date">
+                    <input type="date" class="form-control" placeholder="Check-in">
                 </div>
                 <div class="col-lg mb-3 mb-lg-0">
-                    <select class="form-select">
-                        <option selected>Adults</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                    </select>
+                    <input type="date" class="form-control" placeholder="Check-out">
                 </div>
                 <div class="col-lg mb-3 mb-lg-0">
                     <select class="form-select">
-                        <option selected>Children</option>
+                        <option selected>Adults (1)</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
+                        <option value="4">4+</option>
                     </select>
                 </div>
                 <div class="col-lg mb-3 mb-lg-0">
-                    <button type="submit" class="main-btn rounded-2 px-lg-3">Check Availability</button>
+                    <button type="submit" class="main-btn rounded-2 px-lg-3 w-100">Find Places</button>
                 </div>
             </form>
         </div>
     </section>
 
-<!--    {% for message in messages %}-->
-<!--        <script>alert("{{ message }}");</script>-->
-<!--    {% endfor %}-->
-
-    <!-- Banner section exit -->
     <!-- About section -->
-    <section id="about" class="about_wrapper" >
+    <section id="about" class="about_wrapper">
         <div class="container">
-            <div class="row flex-lg-row flex-column-reverse ">
+            <div class="row flex-lg-row flex-column-reverse align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h3>Welcome to <span>Hotels <br class="d-none d-lg-block">
-                            </span> of your weekend</h3>
-                    <p>lorum luptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-                        dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum
-                        quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius</p>
-                    <p>lorum luptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
-                        dolores eos qui ratione voluptatem</p>
-                    <a href="#" class="main-btn mt-4">Explore</a>
+                    <h3>Welcome to <span>BetterComfort</span> <br class="d-none d-lg-block">Your Ultimate Travel Companion</h3>
+                    <p class="mt-3">
+                        BetterComfort makes discovering exceptional stays effortless. Powered by real-time geolocation and intelligent nearby place discovery, we bring you curated hotel choices, verified customer reviews, and transparent details all in one intuitive platform.
+                    </p>
+                    <p>
+                        Whether you are planning a weekend getaway, a business trip, or simply searching for a welcoming stay around the corner, BetterComfort puts comfort, convenience, and peace of mind first.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start mt-4">
+                        <a href="{% url 'about' %}" class="main-btn">Learn More</a>
+                        <a href="{% url 'services' %}" class="main-btn">Our Services</a>
+                    </div>
                 </div>
                 <div class="col-lg-6 mb-4 mb-lg-0 ps-lg-4 text-center">
-                    <img decoding="async" src="{% static 'images/BC_Images.png' %}" class="img-fluid" alt="About Us">
+                    <img decoding="async" src="{% static 'images/BC_Images.png' %}" class="img-fluid rounded-3 shadow-sm" alt="About BetterComfort">
                 </div>
-
             </div>
         </div>
     </section>
     <!-- About section exit -->
+
+    <script>
+        // Synchronize hero form coordinates with navigator geolocation
+        document.addEventListener("DOMContentLoaded", function() {
+            const heroForm = document.getElementById("hero-search-form");
+            const heroLat = document.getElementById("hero-user-lat");
+            const heroLon = document.getElementById("hero-user-lon");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                    if (heroLat && heroLon) {
+                        heroLat.value = pos.coords.latitude;
+                        heroLon.value = pos.coords.longitude;
+                    }
+                }, function(err) {
+                    console.log("Geolocation warning on hero:", err.message);
+                });
+            }
+
+            if (heroForm) {
+                heroForm.addEventListener("submit", function(e) {
+                    const mainLat = document.getElementById("user-lat");
+                    const mainLon = document.getElementById("user-lon");
+                    if (mainLat && mainLat.value) heroLat.value = mainLat.value;
+                    if (mainLon && mainLon.value) heroLon.value = mainLon.value;
+                });
+            }
+        });
+    </script>
 {% endblock %}

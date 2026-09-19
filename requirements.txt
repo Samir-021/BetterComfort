@@ -1,0 +1,21 @@
+# Core Framework
+Django>=5.1.0,<5.2.0
+asgiref>=3.8.1
+sqlparse>=0.5.2
+
+# Geolocation & Distance Calculation
+geopy>=2.4.1
+geographiclib>=2.0
+
+# API Requests
+requests>=2.32.3
+urllib3>=2.2.3
+certifi>=2024.8.30
+charset-normalizer>=3.4.0
+idna>=3.10
+
+# Fuzzy Matching for Hotel Search
+rapidfuzz>=3.10.1
+
+# Environment & Settings Management
+python-dotenv>=1.0.1

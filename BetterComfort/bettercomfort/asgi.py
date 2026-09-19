@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BetterComfort.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bettercomfort.settings')
 
 application = get_asgi_application()
