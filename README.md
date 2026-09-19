@@ -32,19 +32,6 @@
 *BCA, Tribhuvan University*  
 GitHub: [@Samir-021](https://github.com/Samir-021)
 
----
-
-## 🏷️ Standard Naming Conventions
-
-| Context | Specification | Example / Value |
-|---|---|---|
-| **Product / Project Name** | **BetterComfort** | BetterComfort |
-| **GitHub Repository** | `bettercomfort` | `Samir-021/BetterComfort` |
-| **Python / Django Package** | `bettercomfort` | `bettercomfort.settings`, `bettercomfort.urls` |
-| **Core Django App** | `hotels` | `hotels.models`, `hotels.views` |
-| **Website Title** | **BetterComfort** | `<title>BetterComfort</title>` |
-| **Environment Variables** | `BETTERCOMFORT_*` | `BETTERCOMFORT_SECRET_KEY`, `BETTERCOMFORT_DEBUG` |
-| **Client Identifiers** | `bettercomfort` | `[bettercomfort] Location synchronized` |
 
 ---
 
